@@ -11,6 +11,7 @@ app.use(express.json());
 
 app.use("/v1/auth", authRoutes);
 
+//error route handler
 app.use((req, res, next) => {
   const err = new Error("Not Found");
   err.status = 404;
