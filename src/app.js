@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const dotenv = require("dotenv");
 const http = require("http");
 const authRoutes = require("./routes/api/v1/auth.js");
@@ -8,6 +9,8 @@ const env = dotenv.config().parsed;
 
 //parsing application/json
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: "0.0.0.0" }));
 
 app.use("/v1/auth", authRoutes);
 
