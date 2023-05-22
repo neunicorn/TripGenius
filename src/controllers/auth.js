@@ -8,7 +8,7 @@ const env = dotenv.config().parsed;
 const generateAccesToken = (payload) => {
   return jwt.sign(
     {
-      id: payload.id,
+      id: payload,
     },
     env.ACCESS_JWT_TOKEN_SECRET,
     {
@@ -20,7 +20,7 @@ const generateAccesToken = (payload) => {
 const generateRefreshToken = (payload) => {
   return jwt.sign(
     {
-      id: payload.id,
+      id: payload,
     },
     env.REFRESH_JWT_TOKEN_SECRET,
     {
@@ -87,6 +87,39 @@ class AuthController {
   async login(req, res) {
     try {
       const { email, password } = req.body;
+      if (!email) {
+        throw { code: 400, message: "EMAIL_REQUIRED" };
+      }
+      if (!password) {
+        throw { code: 400, message: "PASSWORD_REQUIRED" };
+      }
+      const isUserValid = `
+        SELECT * FROM users WHERE email = '${email}'
+      `;
+      if (!isUserValid) {
+        throw { code: 404, message: "USER_NOT_FOUND" };
+      }
+
+      const isPasswordValid = await bcrypt.compare(
+        password,
+        isUserValid.passowrd
+      );
+      if (!isPasswordValid) {
+        throw { code: 400, message: "PASSWORD_INVALID" };
+      }
+
+      const accessToken = await generateAccesToken(isUserValid.id);
+      const refreshToken = await generateRefreshToken(isUserValid.id);
+
+      return res.status(200).json({
+        status: true,
+        message: "LOGIN_SUCCESS",
+        name: isUserValid.name,
+        username: isUserValid.username,
+        email: isUserValid.email,
+        accessToken,
+        refreshToken,
+      });
     } catch (err) {
       return res.status(err.code || 500).json({
         status: false,
