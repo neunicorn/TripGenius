@@ -16,11 +16,11 @@ app.use("/v1/auth", authRoutes);
 
 app.get("/", (req, res) => {
   const sql = "SELECT * FROM user";
-  db.query(sql, (err, result)=>{
-      const users = JSON.stringify(result);
-      console.log(users)
-          res.send(users);
-  })
+  db.query(sql, (err, result) => {
+    const users = JSON.stringify(result);
+    console.log(users);
+    res.send(users);
+  });
 });
 //error route handler
 app.use((req, res, next) => {
