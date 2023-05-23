@@ -10,22 +10,7 @@ const generateAccesToken = (payload) => {
     {
       id: payload,
     },
-    env.ACCESS_JWT_TOKEN_SECRET,
-    {
-      expiresIn: "15m",
-    }
-  );
-};
-
-const generateRefreshToken = (payload) => {
-  return jwt.sign(
-    {
-      id: payload,
-    },
-    env.REFRESH_JWT_TOKEN_SECRET,
-    {
-      expiresIn: "7d",
-    }
+    env.ACCESS_JWT_TOKEN_SECRET
   );
 };
 
@@ -50,9 +35,8 @@ class AuthController {
       if (req.body.password.length < 8) {
         throw { code: 400, message: "PASSWORD_MIN_8_CHAR" };
       }
-      const createdAt = new Date().toISOString;
       const emailAlreadyExist = `
-        SELECT * FROM users WHERE email = '${req.body.email}'
+      SELECT * FROM users WHERE email = '${req.body.email}'
       `;
       if (emailAlreadyExist) {
         throw { code: 409, message: "EMAIL_ALREADY_EXIST" };
@@ -60,6 +44,7 @@ class AuthController {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
+      const createdAt = new Date().toISOString;
       const user = `
         INSERT INTO users (name, username, email, password, created_at, updated_at) VALUES(
           '${req.body.name}',
@@ -109,7 +94,6 @@ class AuthController {
       }
 
       const accessToken = await generateAccesToken(isUserValid.id);
-      const refreshToken = await generateRefreshToken(isUserValid.id);
 
       return res.status(200).json({
         status: true,
@@ -118,7 +102,6 @@ class AuthController {
         username: isUserValid.username,
         email: isUserValid.email,
         accessToken,
-        refreshToken,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
@@ -128,7 +111,6 @@ class AuthController {
       });
     }
   }
-  async refreshToken(req, res) {}
 }
 
 module.exports = new AuthController();
