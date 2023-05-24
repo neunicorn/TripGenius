@@ -4,15 +4,6 @@ const bcrypt = require("bcrypt");
 const UserModel = require("../models/UserModel.js");
 const env = dotenv.config().parsed;
 
-const generateAccesToken = (payload) => {
-  return jwt.sign(
-    {
-      id: payload,
-    },
-    env.ACCESS_JWT_TOKEN_SECRET
-  );
-};
-
 class User {
   async updatePassword(req, res) {
     try {
@@ -36,10 +27,14 @@ class User {
       if (!comparePassword) {
         throw { code: 400, message: "PASSWORD_NOT_MATCH" };
       }
-      const updatePassword = `
-            UPDATE user SET password = '${newpassword}' WHERE id = '${req.params.id}'
-            `;
-      const result = await db.query(updatePassword);
+      const updatePassword = await UserModel.updatePassword(
+        newpassword,
+        req.params.id
+      );
+      return res.status(200).json({
+        status: true,
+        message: "PASSWORD_UPDATED",
+      });
     } catch (err) {
       return res.status(err.code).json({
         status: false,

@@ -102,7 +102,7 @@ class AuthController {
         throw { code: 400, message: "PASSWORD_INVALID" };
       }
 
-      const accessToken = await generateAccesToken(isUserValid.id);
+      const accessToken = await generateAccesToken(isUserValid[0].id);
 
       return res.status(200).json({
         status: true,

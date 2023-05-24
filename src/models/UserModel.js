@@ -30,6 +30,10 @@ class UserModel {
     return result[0];
   }
 
-  static async updatePassword() {}
+  static async updatePassword(pass, id) {
+    const sql = `UPDATE user SET password = ? WHERE id = ?`;
+    const result = await db.query(sql, [pass, id]);
+    return result;
+  }
 }
 module.exports = UserModel;
