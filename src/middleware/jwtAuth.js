@@ -1,16 +1,15 @@
-const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
 dotenv.config();
 
 const jwtAuth = () => {
   return async (req, res, next) => {
     try {
-      const authorization = req.headers.authorization;
+      let authorization = req.headers.authorization;
       if (!authorization) {
         throw { code: 401, message: "UNAUTHORIZED" };
       }
-
-      const token = authorization.split("")[1];
+      const token = authorization.split(" ")[1];
       const decode = jwt.verify(token, process.env.ACCESS_JWT_TOKEN_SECRET);
       req.jwt = decode;
       next();

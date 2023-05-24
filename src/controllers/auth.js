@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const validator = require("validator");
+const UserModel = require("../models/UserModel.js");
 
 const env = dotenv.config().parsed;
 
@@ -35,28 +36,34 @@ class AuthController {
       if (req.body.password.length < 8) {
         throw { code: 400, message: "PASSWORD_MIN_8_CHAR" };
       }
-      const emailAlreadyExist = `
-      SELECT * FROM user WHERE email = '${req.body.email}'
-      `;
-      if (!emailAlreadyExist) {
+      let emailAlreadyExist = await UserModel.getOneUser(
+        "email",
+        req.body.email
+      );
+      let usernameAlreadyExist = await UserModel.getOneUser(
+        "username",
+        req.body.username
+      );
+      if (emailAlreadyExist.length > 0) {
         throw { code: 400, message: "EMAIL_ALREADY_EXIST" };
+      }
+      if (usernameAlreadyExist.length > 0) {
+        throw { code: 400, message: "USERNAME_ALREADY_EXIST" };
       }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
       const createdAt = new Date().toISOString;
-      // const user = `
-      //   INSERT INTO users (name, username, email, password, created_at, updated_at) VALUES(
-      //     '${req.body.name}',
-      //     '${req.body.username}',
-      //     '${req.body.email}',
-      //     '${hashedPassword}',
-      //     '${createdAt}',
-      //     '${updatedAt}'
-      //   )
-      // `;
-      let { name, username, email, password, phone, address } = req.body;
-      let user = new models(name, username, email, hashedPassword, phone, address);
+
+      let { name, username, email, phone, address } = req.body;
+      let user = new UserModel(
+        name,
+        username,
+        email,
+        hashedPassword,
+        phone,
+        address
+      );
       user = await user.save();
       if (!user) {
         throw { code: 500, message: "INTERNAL_SERVER_ERROR" };
@@ -81,22 +88,21 @@ class AuthController {
       if (!password) {
         throw { code: 400, message: "PASSWORD_REQUIRED" };
       }
-      const isUserValid = `
-        SELECT * FROM user WHERE email = '${email}'
-      `;
-      if (!isUserValid) {
+      const isUserValid = await UserModel.getOneUser("email", email);
+      if (isUserValid.length === 0) {
         throw { code: 404, message: "USER_NOT_FOUND" };
       }
+      console.log(isUserValid[0]);
 
-      const isPasswordValid = await bcrypt.compare(
+      const isPasswordValid = await bcrypt.compareSync(
         password,
-        isUserValid.passowrd
+        isUserValid[0].password
       );
       if (!isPasswordValid) {
         throw { code: 400, message: "PASSWORD_INVALID" };
       }
 
-      const accessToken = await generateAccesToken(isUserValid.id);
+      const accessToken = await generateAccesToken(isUserValid[0].id);
 
       return res.status(200).json({
         status: true,

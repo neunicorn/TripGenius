@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const http = require("http");
 const authRoutes = require("./routes/api/v1/auth.js");
+const userRoutes = require("./routes/api/v1/user.js");
 const db = require("./db/db.js");
 const app = express();
 const env = dotenv.config().parsed;
@@ -13,16 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: "0.0.0.0" }));
 
 app.use("/v1/auth", authRoutes);
-
-// app.get("/", (req, res) => {
-//   const sql = "SELECT * FROM user";
-//   db.query(sql, (err, result) => {
-//     const users = JSON.stringify(result);
-//     console.log(users);
-//     res.send(users);
-//   });
-// });
-
+app.use("/v1/user", userRoutes);
 //error route handler
 app.use((req, res, next) => {
   const err = new Error("Not Found");
