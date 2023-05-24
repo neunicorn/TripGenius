@@ -45,31 +45,34 @@ class User {
     try {
       let { name, username, email, phone, address } = req.body;
       if (!name) {
-        name = `Select name from user where id = '${req.params.id}'`;
+        name = await UserModel.getOneUserById("name", req.params.id)[0];
       }
       if (!username) {
-        username = `Select username from user where id = '${req.params.id}'`;
+        username = await UserModel.getOneUserById("username", req.params.id)[0];
       }
       if (!email) {
-        email = `Select email from user where id = '${req.params.id}'`;
+        email = await UserModel.getOneUserById("email", req.params.id)[0];
       }
       if (!phone) {
-        phone = `Select phone from user where id = '${req.params.id}'`;
+        phone = await UserModel.getOneUserById("phone", req.params.id)[0];
       }
       if (!address) {
-        address = `Select address from user where id = '${req.params.id}'`;
+        address = await UserModel.getOneUserById("address", req.params.id)[0];
       }
-      const updateProfile = `
-        UPDATE user SET name = '${name}', username = '${username}', email = '${email}', phone = '${phone}', address = '${address}' WHERE id = '${req.params.id}'
-        `;
-      const result = await db.query(updateProfile);
+      const updateProfile = await UserModel.updateProfile(
+        name,
+        username,
+        email,
+        phone,
+        address,
+        req.params.id
+      );
       return res.status(200).json({
         status: true,
         message: "UPDATE_PROFILE_SUCCESS",
-        data: result,
       });
     } catch (err) {
-      return res.status(err.code).json({
+      return res.status(err.code || 500).json({
         status: false,
         message: err.message,
       });

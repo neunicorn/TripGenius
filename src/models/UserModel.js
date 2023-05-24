@@ -30,10 +30,29 @@ class UserModel {
     return result[0];
   }
 
+  static async getOneUserById(what, id) {
+    const sql = `SELECT ? FROM user WHERE id = ?`;
+    const result = await db.query(sql, [what, id]);
+    return result[0];
+  }
+
   static async updatePassword(pass, id) {
     const sql = `UPDATE user SET password = ? WHERE id = ?`;
     const result = await db.query(sql, [pass, id]);
     return result;
+  }
+
+  static async updateProfile(name, username, email, phone, address, id) {
+    const sql = `UPDATE user SET name = ?, username = ?, email = ?, phone = ?, address = ? WHERE id = ?`;
+    const result = await db.query(sql, [
+      name,
+      username,
+      email,
+      phone,
+      address,
+      id,
+    ]);
+    return result[0];
   }
 }
 module.exports = UserModel;
