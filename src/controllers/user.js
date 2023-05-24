@@ -7,14 +7,13 @@ const env = dotenv.config().parsed;
 class User {
   async updatePassword(req, res) {
     try {
-      const { oldPassword, newpassword } = req.body;
+      const { oldPassword, newPassword } = req.body;
       if (!oldPassword) {
         throw { code: 400, message: "PASSWORD_REQUIRED" };
       }
-      if (newpassword.length < 8) {
+      if (newPassword.length < 8) {
         throw { code: 400, message: "PASSWORD_MIN_8_CHAR" };
       }
-
       let OldPasswordDb = await UserModel.getOneUser("id", req.params.id);
 
       const comparePassword = await bcrypt.compareSync(
@@ -28,7 +27,7 @@ class User {
         throw { code: 400, message: "PASSWORD_NOT_MATCH" };
       }
       const updatePassword = await UserModel.updatePassword(
-        newpassword,
+        newPassword,
         req.params.id
       );
       return res.status(200).json({
@@ -36,7 +35,7 @@ class User {
         message: "PASSWORD_UPDATED",
       });
     } catch (err) {
-      return res.status(err.code).json({
+      return res.status(err.code || 500).json({
         status: false,
         message: err.message,
       });

@@ -10,7 +10,6 @@ const jwtAuth = () => {
         throw { code: 401, message: "UNAUTHORIZED" };
       }
       const token = authorization.split(" ")[1];
-      console.log(token);
       const decode = jwt.verify(token, process.env.ACCESS_JWT_TOKEN_SECRET);
       req.jwt = decode;
       next();
