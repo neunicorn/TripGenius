@@ -8,5 +8,5 @@ const UserController = require("../../../controllers/user.js");
 //router.put("/update", jwtAuth(), (req, res) => {
 
 router.put("/updatePassword/:id", jwtAuth(), UserController.updatePassword);
-
+router.put("/updateProfile/:id", jwtAuth(), UserController.updateProfile);
 module.exports = router;

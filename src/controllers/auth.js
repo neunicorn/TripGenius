@@ -38,7 +38,7 @@ class AuthController {
       const emailAlreadyExist = `
       SELECT * FROM user WHERE email = '${req.body.email}'
       `;
-      if (emailAlreadyExist) {
+      if (!emailAlreadyExist) {
         throw { code: 400, message: "EMAIL_ALREADY_EXIST" };
       }
       const salt = await bcrypt.genSalt(10);
