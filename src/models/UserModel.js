@@ -25,14 +25,14 @@ class UserModel {
   }
 
   static async getOneUser(payload, value) {
-    const sql = `SELECT * FROM user WHERE ? = ?`;
-    const result = await db.query(sql, [payload, value]);
+    const sql = `SELECT * FROM user WHERE ${payload} = ?`;
+    const [result, _] = await db.query(sql, [value]);
     return result[0];
   }
 
   static async getOneUserById(what, id) {
-    const sql = `SELECT ? FROM user WHERE id = ?`;
-    const result = await db.query(sql, [what, id]);
+    const sql = `SELECT ${what} FROM user WHERE id = ?`;
+    const [result, _] = await db.query(sql, [id]);
     return result[0];
   }
 

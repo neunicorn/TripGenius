@@ -7,6 +7,7 @@ const env = dotenv.config().parsed;
 class User {
   async updatePassword(req, res) {
     try {
+      console.log(req.jwt);
       const { oldPassword, newPassword } = req.body;
       if (!oldPassword) {
         throw { code: 400, message: "PASSWORD_REQUIRED" };
@@ -14,11 +15,11 @@ class User {
       if (newPassword.length < 8) {
         throw { code: 400, message: "PASSWORD_MIN_8_CHAR" };
       }
-      let OldPasswordDb = await UserModel.getOneUser("id", req.params.id);
+      let oldPasswordDb = await UserModel.getOneUser("id", req.jwt.id);
 
       const comparePassword = await bcrypt.compareSync(
         oldPassword,
-        OldPasswordDb[0].password
+        oldPasswordDb.password
       );
 
       console.log(comparePassword);
@@ -26,9 +27,13 @@ class User {
       if (!comparePassword) {
         throw { code: 400, message: "PASSWORD_NOT_MATCH" };
       }
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+
       const updatePassword = await UserModel.updatePassword(
-        newPassword,
-        req.params.id
+        hashedPassword,
+        req.jwt.id
       );
       return res.status(200).json({
         status: true,
@@ -45,19 +50,19 @@ class User {
     try {
       let { name, username, email, phone, address } = req.body;
       if (!name) {
-        name = await UserModel.getOneUserById("name", req.params.id)[0];
+        name = await UserModel.getOneUserById("name", req.jwt.id);
       }
       if (!username) {
-        username = await UserModel.getOneUserById("username", req.params.id)[0];
+        username = await UserModel.getOneUserById("username", req.jwt.id);
       }
       if (!email) {
-        email = await UserModel.getOneUserById("email", req.params.id)[0];
+        email = await UserModel.getOneUserById("email", req.jwt.id);
       }
       if (!phone) {
-        phone = await UserModel.getOneUserById("phone", req.params.id)[0];
+        phone = await UserModel.getOneUserById("phone", req.jwt.id);
       }
       if (!address) {
-        address = await UserModel.getOneUserById("address", req.params.id)[0];
+        address = await UserModel.getOneUserById("address", req.jwt.id);
       }
       const updateProfile = await UserModel.updateProfile(
         name,
@@ -65,7 +70,7 @@ class User {
         email,
         phone,
         address,
-        req.params.id
+        req.jwt.id
       );
       return res.status(200).json({
         status: true,
