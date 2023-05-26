@@ -7,13 +7,8 @@ const db = mysql
     host: process.env.DB_HOST,
     database: process.env.DB_DATABASE_NAME,
     user: process.env.DB_USERNAME,
-    password: "root",
+    password: '',
   })
   .promise();
-
-// db.connect((err) => {
-//   if (err) throw err;
-//   console.log("Database connected");
-// });
 
 module.exports = db;
