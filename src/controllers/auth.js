@@ -42,6 +42,13 @@ class AuthController {
       if (req.body.phone.length < 12) {
         throw { code: 400, message: "PHONE_MIN_12_CHAR" };
       }
+      let phoneNumberAlreadyExist = await UserModel.getOneUser(
+        "phone",
+        req.body.phone
+      );
+      if (phoneNumberAlreadyExist) {
+        throw { code: 400, message: "PHONE_ALREADY_EXIST" };
+      }
       
       function validatePhoneNumber(phoneNumber) {
         const cleanedNumber = phoneNumber.replace(/\D/g, '');
