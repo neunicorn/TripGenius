@@ -36,6 +36,26 @@ class AuthController {
       if (req.body.password.length < 8) {
         throw { code: 400, message: "PASSWORD_MIN_8_CHAR" };
       }
+      if (!req.body.phone) {
+        throw { code: 400, message: "PHONE_REQUIRED" };
+      }
+      if (req.body.phone.length < 12) {
+        throw { code: 400, message: "PHONE_MIN_12_CHAR" };
+      }
+      
+      function validatePhoneNumber(phoneNumber) {
+        const cleanedNumber = phoneNumber.replace(/\D/g, '');
+        if (!validator.isMobilePhone(cleanedNumber, 'id-ID')) {
+          return false;
+        }
+        return true;
+      }
+      if (!validatePhoneNumber(req.body.phone)) {
+        throw { code: 400, message: "PHONE_INVALID" };
+      }
+      if (!req.body.address) {
+        throw { code: 400, message: "ADDRESS_REQUIRED" };
+      }
       let emailAlreadyExist = await UserModel.getOneUser(
         "email",
         req.body.email
