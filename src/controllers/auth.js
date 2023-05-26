@@ -6,7 +6,7 @@ const UserModel = require("../models/UserModel.js");
 
 const env = dotenv.config().parsed;
 
-const generateAccesToken = (payload) => {
+const generateAccesToken = async (payload) => {
   return jwt.sign(
     {
       id: payload,
@@ -44,10 +44,10 @@ class AuthController {
         "username",
         req.body.username
       );
-      if (emailAlreadyExist.length > 0) {
+      if (emailAlreadyExist) {
         throw { code: 400, message: "EMAIL_ALREADY_EXIST" };
       }
-      if (usernameAlreadyExist.length > 0) {
+      if (usernameAlreadyExist) {
         throw { code: 400, message: "USERNAME_ALREADY_EXIST" };
       }
       const salt = await bcrypt.genSalt(10);
@@ -89,20 +89,20 @@ class AuthController {
         throw { code: 400, message: "PASSWORD_REQUIRED" };
       }
       const isUserValid = await UserModel.getOneUser("email", email);
-      if (isUserValid.length === 0) {
+      if (!isUserValid) {
         throw { code: 404, message: "USER_NOT_FOUND" };
       }
       console.log(isUserValid[0]);
 
       const isPasswordValid = await bcrypt.compareSync(
         password,
-        isUserValid[0].password
+        isUserValid.password
       );
       if (!isPasswordValid) {
         throw { code: 400, message: "PASSWORD_INVALID" };
       }
 
-      const accessToken = await generateAccesToken(isUserValid[0].id);
+      const accessToken = await generateAccesToken(isUserValid.id);
 
       return res.status(200).json({
         status: true,
