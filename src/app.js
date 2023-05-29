@@ -31,4 +31,4 @@ const HOST = env.APP_HOST || "localhost";
 
 const server = http.createServer(app);
 console.log(`Server running at http://${HOST}:${PORT}/`);
-server.listen(PORT, HOST);
+server.listen(5000);
