@@ -1,17 +1,15 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
+require("dotenv").config();
 const validator = require("validator");
 const UserModel = require("../models/UserModel.js");
-
-const env = dotenv.config().parsed;
 
 const generateAccesToken = async (payload) => {
   return jwt.sign(
     {
       id: payload,
     },
-    env.ACCESS_JWT_TOKEN_SECRET
+    process.env.ACCESS_JWT_TOKEN_SECRET
   );
 };
 
@@ -49,10 +47,10 @@ class AuthController {
       if (phoneNumberAlreadyExist) {
         throw { code: 400, message: "PHONE_ALREADY_EXIST" };
       }
-      
+
       function validatePhoneNumber(phoneNumber) {
-        const cleanedNumber = phoneNumber.replace(/\D/g, '');
-        if (!validator.isMobilePhone(cleanedNumber, 'id-ID')) {
+        const cleanedNumber = phoneNumber.replace(/\D/g, "");
+        if (!validator.isMobilePhone(cleanedNumber, "id-ID")) {
           return false;
         }
         return true;
