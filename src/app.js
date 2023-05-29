@@ -29,6 +29,8 @@ app.use((req, res, next) => {
 const PORT = env.APP_PORT || 8080;
 const HOST = env.APP_HOST || "localhost";
 
-const server = http.createServer(app);
-console.log(`Server running at http://${HOST}:${PORT}/`);
-server.listen(5000);
+// const server = http.createServer(app);
+// console.log(`Server running at http://${HOST}:${PORT}/`);
+// server.listen(5000);
+
+app.listen(8080);

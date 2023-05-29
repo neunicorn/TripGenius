@@ -7,7 +7,7 @@ const db = mysql
     host: process.env.DB_HOST,
     database: process.env.DB_DATABASE_NAME,
     user: process.env.DB_USERNAME,
-    password: '',
+    password: "root",
   })
   .promise();
 
