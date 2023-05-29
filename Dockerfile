@@ -1,7 +1,15 @@
-FROM node:14.21.2-alpine
-WORKDIR /app
-ENV PORT 5000
-COPY . .
+FROM node:18.16.0
+
+WORKDIR /api
+
+COPY package*.json ./
+
 RUN npm install
+
+COPY . .
+
+ENV PORT 5000
+
 EXPOSE 5000
-CMD [ "npm", "run", "start"]
+
+CMD ["npm", "run", "start"]
