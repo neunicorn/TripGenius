@@ -26,8 +26,8 @@ app.use((req, res, next) => {
   });
 });
 
-const PORT = env.APP_PORT || 8080;
-const HOST = env.APP_HOST || "localhost";
+// const PORT = env.APP_PORT || 8080;
+// const HOST = env.APP_HOST || "localhost";
 
 // const server = http.createServer(app);
 // console.log(`Server running at http://${HOST}:${PORT}/`);
