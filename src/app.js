@@ -1,12 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 const http = require("http");
 const authRoutes = require("./routes/api/v1/auth.js");
 const userRoutes = require("./routes/api/v1/user.js");
 const db = require("./db/db.js");
 const app = express();
-const env = dotenv.config().parsed;
+// const env = dotenv.config().parsed;
 
 //parsing application/json
 app.use(express.json());
@@ -33,4 +33,7 @@ const HOST = env.APP_HOST || "localhost";
 // console.log(`Server running at http://${HOST}:${PORT}/`);
 // server.listen(5000);
 
-app.listen(8080);
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log("Hello world listening on port", port);
+});
