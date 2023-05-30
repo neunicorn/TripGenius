@@ -1,17 +1,17 @@
 const db = require("../db/db.js");
 
 class UserModel {
-  constructor(name, username, email, password, phone, address) {
+  constructor(name, username, email, password, phone, home_town) {
     this.name = name;
     this.username = username;
     this.email = email;
     this.password = password;
     this.phone = phone;
-    this.address = address;
+    this.home_town = home_town;
   }
 
   async save() {
-    const sql = `INSERT INTO user (name, username, email, password, phone, address) 
+    const sql = `INSERT INTO user (name, username, email, password, phone, home_town) 
         VALUES (?, ?, ?, ?, ?, ?)`;
     const result = await db.query(sql, [
       this.name,
@@ -19,7 +19,7 @@ class UserModel {
       this.email,
       this.password,
       this.phone,
-      this.address,
+      this.home_town,
     ]);
     return result;
   }

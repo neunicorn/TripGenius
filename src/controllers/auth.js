@@ -16,29 +16,22 @@ const generateAccesToken = async (payload) => {
 class AuthController {
   async register(req, res) {
     try {
-      if (!req.body.name) {
-        throw { code: 400, message: "NAME_REQUIRED" };
-      }
-      if (!req.body.username) {
-        throw { code: 400, message: "USERNAME_REQUIRED" };
-      }
-      if (!req.body.email) {
-        throw { code: 400, message: "EMAIL_REQUIRED" };
-      }
       if (validator.isEmail(req.body.email) === false) {
         throw { code: 400, message: "EMAIL_INVALID" };
       }
-      if (!req.body.password) {
-        throw { code: 400, message: "PASSWORD_REQUIRED" };
+      let emailAlreadyExist = await UserModel.getOneUser(
+        "email",
+        req.body.email
+      );
+      let usernameAlreadyExist = await UserModel.getOneUser(
+        "username",
+        req.body.username
+      );
+      if (usernameAlreadyExist) {
+        throw { code: 400, message: "USERNAME_ALREADY_EXIST" };
       }
-      if (req.body.password.length < 8) {
-        throw { code: 400, message: "PASSWORD_MIN_8_CHAR" };
-      }
-      if (!req.body.phone) {
-        throw { code: 400, message: "PHONE_REQUIRED" };
-      }
-      if (req.body.phone.length < 12) {
-        throw { code: 400, message: "PHONE_MIN_12_CHAR" };
+      if (emailAlreadyExist) {
+        throw { code: 400, message: "EMAIL_ALREADY_EXIST" };
       }
       let phoneNumberAlreadyExist = await UserModel.getOneUser(
         "phone",
@@ -47,7 +40,6 @@ class AuthController {
       if (phoneNumberAlreadyExist) {
         throw { code: 400, message: "PHONE_ALREADY_EXIST" };
       }
-
       function validatePhoneNumber(phoneNumber) {
         const cleanedNumber = phoneNumber.replace(/\D/g, "");
         if (!validator.isMobilePhone(cleanedNumber, "id-ID")) {
@@ -58,36 +50,17 @@ class AuthController {
       if (!validatePhoneNumber(req.body.phone)) {
         throw { code: 400, message: "PHONE_INVALID" };
       }
-      if (!req.body.address) {
-        throw { code: 400, message: "ADDRESS_REQUIRED" };
-      }
-      let emailAlreadyExist = await UserModel.getOneUser(
-        "email",
-        req.body.email
-      );
-      let usernameAlreadyExist = await UserModel.getOneUser(
-        "username",
-        req.body.username
-      );
-      if (emailAlreadyExist) {
-        throw { code: 400, message: "EMAIL_ALREADY_EXIST" };
-      }
-      if (usernameAlreadyExist) {
-        throw { code: 400, message: "USERNAME_ALREADY_EXIST" };
-      }
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-      const createdAt = new Date().toISOString;
-
-      let { name, username, email, phone, address } = req.body;
+      let { name, username, email, phone, home_town } = req.body;
       let user = new UserModel(
         name,
         username,
         email,
         hashedPassword,
         phone,
-        address
+        home_town
       );
       user = await user.save();
       if (!user) {
@@ -98,6 +71,7 @@ class AuthController {
         message: "REGISTER_SUCCESS",
       });
     } catch (err) {
+      console.log(err);
       return res.status(err.code).json({
         status: false,
         message: err.message,
@@ -107,12 +81,6 @@ class AuthController {
   async login(req, res) {
     try {
       const { email, password } = req.body;
-      if (!email) {
-        throw { code: 400, message: "EMAIL_REQUIRED" };
-      }
-      if (!password) {
-        throw { code: 400, message: "PASSWORD_REQUIRED" };
-      }
       const isUserValid = await UserModel.getOneUser("email", email);
       if (!isUserValid) {
         throw { code: 404, message: "USER_NOT_FOUND" };

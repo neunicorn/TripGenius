@@ -11,4 +11,15 @@ const db = mysql
   })
   .promise();
 
+const checkConnection = async () => {
+  try {
+    await db.getConnection();
+    console.log("Database connected");
+  } catch (error) {
+    console.log(error);
+    console.log("Database connection failed");
+  }
+};
+ checkConnection();
+
 module.exports = db;

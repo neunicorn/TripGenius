@@ -18,7 +18,6 @@ app.use("/v1/user", userRoutes);
 app.use((req, res, next) => {
   const err = new Error("Not Found");
   err.status = 404;
-  // next(err);
   res.status(404).json({
     message: "Not Found",
     status: 404,
