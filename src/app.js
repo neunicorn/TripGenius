@@ -13,6 +13,7 @@ app.use(cors({ origin: "0.0.0.0" }));
 
 app.use("/v1/auth", authRoutes);
 app.use("/v1/user", userRoutes);
+
 //error route handler
 app.use((req, res, next) => {
   const err = new Error("Not Found");

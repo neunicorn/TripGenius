@@ -6,7 +6,6 @@ const UserModel = require("../models/UserModel.js");
 class User {
   async updatePassword(req, res) {
     try {
-      console.log(req.jwt);
       const { oldPassword, newPassword } = req.body;
       if (!oldPassword) {
         throw { code: 400, message: "PASSWORD_REQUIRED" };
@@ -20,8 +19,6 @@ class User {
         oldPassword,
         oldPasswordDb.password
       );
-
-      console.log(comparePassword);
 
       if (!comparePassword) {
         throw { code: 400, message: "PASSWORD_NOT_MATCH" };
@@ -110,7 +107,21 @@ class User {
         message: "UPDATE_PROFILE_SUCCESS",
       });
     } catch (err) {
-      console.log(err);
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
+  async getOneUser(req, res) {
+    try {
+      const getProfile = await UserModel.getOneUser("id", req.jwt.id);
+      return res.status(200).json({
+        status: true,
+        message: "GET_PROFILE_SUCCESS",
+        data: getProfile,
+      });
+    } catch (err) {
       return res.status(err.code || 500).json({
         status: false,
         message: err.message,
