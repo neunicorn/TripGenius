@@ -2,7 +2,6 @@ const dotenv = require("dotenv");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const UserModel = require("../models/UserModel.js");
-const env = dotenv.config().parsed;
 
 class User {
   async updatePassword(req, res) {
@@ -86,8 +85,8 @@ class User {
         throw { code: 400, message: "PHONE_ALREADY_EXIST" };
       }
       function validatePhoneNumber(phoneNumber) {
-        const cleanedNumber = phoneNumber.replace(/\D/g, '');
-        if (!validator.isMobilePhone(cleanedNumber, 'id-ID')) {
+        const cleanedNumber = phoneNumber.replace(/\D/g, "");
+        if (!validator.isMobilePhone(cleanedNumber, "id-ID")) {
           return false;
         }
         return true;
