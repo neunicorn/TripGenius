@@ -117,7 +117,6 @@ class AuthController {
       if (!isUserValid) {
         throw { code: 404, message: "USER_NOT_FOUND" };
       }
-      console.log(isUserValid[0]);
 
       const isPasswordValid = await bcrypt.compareSync(
         password,
