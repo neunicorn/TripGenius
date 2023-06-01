@@ -1,13 +1,13 @@
 const ListModel = require("../models/ListModel.js");
 
-class List {
-  async getAllList(req, res) {
+class History {
+  async getAllHistory(req, res) {
     try {
       const { id } = req.jwt;
-      const result = await ListModel.getAllList(id, "true");
+      const result = await ListModel.getAllList(id, "false");
       return res.status(200).json({
         status: true,
-        message: "GET_ALL_LIST_SUCCESS",
+        message: "GET_ALL_HISTORY_SUCCESS",
         data: result,
       });
     } catch (err) {
@@ -17,13 +17,13 @@ class List {
       });
     }
   }
-  async getDetailList(req, res) {
+  async addToHistory(req, res) {
     try {
       const { id } = req.body;
-      const result = await ListModel.getDetailList(id);
+      const result = await ListModel.addHistory(id);
       return res.status(200).json({
         status: true,
-        message: "GET_DETAIL_LIST_SUCCESS",
+        message: "ADD_TO_HISTORY_SUCCESS",
         data: result,
       });
     } catch (err) {
@@ -35,4 +35,4 @@ class List {
   }
 }
 
-module.exports = new List();
+module.exports = new History();

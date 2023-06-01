@@ -1,10 +1,22 @@
 const db = require("../db/db.js");
 
 class ListModel {
-  static async getAllList(id) {
-    const sql = `SELECT list.id as id, tempat_wisata.place_name as destinasi, hotel.hotel_name as hotel, transportation.name as kendaraan, restaurant.resto_name as restaurant FROM list JOIN tempat_wisata JOIN hotel JOIN transportation JOIN restaurant WHERE list.uid_fk = ${id}`;
+  static async getAllList(id, status) {
+    const sql = `SELECT 
+    list.id as id, 
+    tempat_wisata.place_name as destinasi, 
+    hotel.hotel_name as hotel, 
+    transportation.name as kendaraan, 
+    restaurant.resto_name as restaurant 
+    FROM list 
+    JOIN tempat_wisata ON (list.wisata_fk = tempat_wisata.id)
+    JOIN hotel ON (list.hotel_fk = hotel.id)
+    JOIN transportation ON (list.transportation_fk = transportation.id)
+    JOIN restaurant ON (list.restaurant_fk = restaurant.id)
+    WHERE list.uid_fk = ${id} 
+    AND list.status = ${status}`;
     const [result, _] = await db.query(sql);
-    return result;
+    return result[0];
   }
 
   static async getDetailList(id) {
@@ -30,6 +42,12 @@ class ListModel {
     JOIN transportation ON (list.transportation_fk = transportation.id)
     WHERE list.id = ${id};
     `;
+    const [result, _] = await db.query(sql);
+    return result[0];
+  }
+
+  static async addHistory(id) {
+    const sql = `UPDATE list SET status = "false" WHERE id = ${id}`;
     const [result, _] = await db.query(sql);
     return result[0];
   }
