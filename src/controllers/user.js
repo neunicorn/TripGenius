@@ -39,51 +39,56 @@ class User {
   async updateProfile(req, res) {
     try {
       let { name, username, email, phone, home_town } = req.body;
+      const oldData = await UserModel.getOneUser("id", req.jwt.id);
+
       if (!name) {
-        name = await UserModel.getOneUserById("name", req.jwt.id);
+        name = oldData.name;
       }
+
       if (!username) {
-        username = await UserModel.getOneUserById("username", req.jwt.id);
+        username = oldData.username;
+      } else if (username !== oldData.username) {
+        let usernameAlreadyExist = await UserModel.getOneUser(
+          "username",
+          req.body.username
+        );
+        if (usernameAlreadyExist) {
+          throw { code: 400, message: "USERNAME_ALREADY_EXIST" };
+        }
       }
-      let usernameAlreadyExist = await UserModel.getOneUser(
-        "username",
-        req.body.username
-      );
-      if (usernameAlreadyExist) {
-        throw { code: 400, message: "USERNAME_ALREADY_EXIST" };
-      }
+
       if (!email) {
-        email = await UserModel.getOneUserById("email", req.jwt.id);
+        email = oldData.email;
+      } else if (email !== oldData.email) {
+        let emailAlreadyExist = await UserModel.getOneUser(
+          "email",
+          req.body.email
+        );
+        if (emailAlreadyExist) {
+          throw { code: 400, message: "EMAIL_ALREADY_EXIST" };
+        }
       }
-      let emailAlreadyExist = await UserModel.getOneUser(
-        "email",
-        req.body.email
-      );
-      if (emailAlreadyExist) {
-        throw { code: 400, message: "EMAIL_ALREADY_EXIST" };
-      }
+
       if (!phone) {
-        phone = await UserModel.getOneUserById("phone", req.jwt.id);
+        phone = oldData.phone;
+      } else if (phone !== oldData.phone) {
+        let phoneNumberAlreadyExist = await UserModel.getOneUser(
+          "phone",
+          req.body.phone
+        );
+        if (phoneNumberAlreadyExist) {
+          throw { code: 400, message: "PHONE_ALREADY_EXIST" };
+        }
       }
-      let phoneNumberAlreadyExist = await UserModel.getOneUser(
-        "phone",
-        req.body.phone
-      );
-      if (phoneNumberAlreadyExist) {
-        throw { code: 400, message: "PHONE_ALREADY_EXIST" };
-      }
+
       function validatePhoneNumber(phoneNumber) {
         const cleanedNumber = phoneNumber.replace(/\D/g, "");
         if (!validator.isMobilePhone(cleanedNumber, "id-ID")) {
-          return false;
+          throw { code: 400, message: "PHONE_INVALID" };
         }
-        return true;
-      }
-      if (!validatePhoneNumber(req.body.phone)) {
-        throw { code: 400, message: "PHONE_INVALID" };
       }
       if (!home_town) {
-        home_town = await UserModel.getOneUserById("home_town", req.jwt.id);
+        home_town = oldData.home_town;
       }
       const updateProfile = await UserModel.updateProfile(
         name,
@@ -96,9 +101,10 @@ class User {
       return res.status(200).json({
         status: true,
         message: "UPDATE_PROFILE_SUCCESS",
-        data: updateProfile
+        data: updateProfile,
       });
     } catch (err) {
+      console.log(err);
       return res.status(err.code || 500).json({
         status: false,
         message: err.message,
