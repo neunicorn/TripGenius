@@ -117,7 +117,14 @@ class User {
       return res.status(200).json({
         status: true,
         message: "GET_PROFILE_SUCCESS",
-        data: getProfile,
+        data: {
+          name: getProfile.name,
+          username: getProfile.username,
+          email: getProfile.email,
+          phone: getProfile.phone,
+          home_town: getProfile.home_town,
+          profile_picture: getProfile.profile_picture,
+        },
       });
     } catch (err) {
       return res.status(err.code || 500).json({
