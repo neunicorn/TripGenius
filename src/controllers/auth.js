@@ -82,6 +82,7 @@ class AuthController {
     try {
       const { email, password } = req.body;
       const isUserValid = await UserModel.getOneUser("email", email);
+      console.log(isUserValid);
       if (!isUserValid) {
         throw { code: 404, message: "USER_NOT_FOUND" };
       }
