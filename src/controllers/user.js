@@ -7,12 +7,6 @@ class User {
   async updatePassword(req, res) {
     try {
       const { oldPassword, newPassword } = req.body;
-      if (!oldPassword) {
-        throw { code: 400, message: "PASSWORD_REQUIRED" };
-      }
-      if (newPassword.length < 8) {
-        throw { code: 400, message: "PASSWORD_MIN_8_CHAR" };
-      }
       let oldPasswordDb = await UserModel.getOneUser("id", req.jwt.id);
 
       const comparePassword = await bcrypt.compareSync(
@@ -44,7 +38,7 @@ class User {
   }
   async updateProfile(req, res) {
     try {
-      let { name, username, email, phone, address } = req.body;
+      let { name, username, email, phone, home_town } = req.body;
       if (!name) {
         name = await UserModel.getOneUserById("name", req.jwt.id);
       }
@@ -71,9 +65,6 @@ class User {
       if (!phone) {
         phone = await UserModel.getOneUserById("phone", req.jwt.id);
       }
-      if (req.body.phone.length < 12) {
-        throw { code: 400, message: "PHONE_MIN_12_CHAR" };
-      }
       let phoneNumberAlreadyExist = await UserModel.getOneUser(
         "phone",
         req.body.phone
@@ -91,20 +82,21 @@ class User {
       if (!validatePhoneNumber(req.body.phone)) {
         throw { code: 400, message: "PHONE_INVALID" };
       }
-      if (!address) {
-        address = await UserModel.getOneUserById("address", req.jwt.id);
+      if (!home_town) {
+        home_town = await UserModel.getOneUserById("home_town", req.jwt.id);
       }
       const updateProfile = await UserModel.updateProfile(
         name,
         username,
         email,
         phone,
-        address,
+        home_town,
         req.jwt.id
       );
       return res.status(200).json({
         status: true,
         message: "UPDATE_PROFILE_SUCCESS",
+        data: updateProfile
       });
     } catch (err) {
       return res.status(err.code || 500).json({

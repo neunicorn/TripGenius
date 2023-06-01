@@ -4,6 +4,6 @@ const router = express.Router();
 const UserController = require("../../../controllers/user.js");
 
 router.get("/", jwtAuth(), UserController.getOneUser);
-router.put("/updatePassword/:id", jwtAuth(), UserController.updatePassword);
-router.put("/updateProfile/:id", jwtAuth(), UserController.updateProfile);
+router.put("/updatePassword/", jwtAuth(), UserController.updatePassword);
+router.put("/updateProfile/", jwtAuth(), UserController.updateProfile);
 module.exports = router;
