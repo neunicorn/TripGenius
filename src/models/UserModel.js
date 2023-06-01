@@ -42,14 +42,14 @@ class UserModel {
     return result;
   }
 
-  static async updateProfile(name, username, email, phone, address, id) {
-    const sql = `UPDATE user SET name = ?, username = ?, email = ?, phone = ?, address = ? WHERE id = ?`;
+  static async updateProfile(name, username, email, phone, home_town, id) {
+    const sql = `UPDATE user SET name = ?, username = ?, email = ?, phone = ?, home_town = ? WHERE id = ?`;
     const result = await db.query(sql, [
       name,
       username,
       email,
       phone,
-      address,
+      home_town,
       id,
     ]);
     return result[0];
