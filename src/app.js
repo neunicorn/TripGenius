@@ -3,6 +3,8 @@ const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/api/v1/auth.js");
 const userRoutes = require("./routes/api/v1/user.js");
+const listRoutes = require("./routes/api/v1/list.js");
+const historyRoutes = require("./routes/api/v1/history.js");
 const dataRoutes = require("./routes/api/v1/data.js");
 const db = require("./db/db.js");
 const app = express();
@@ -14,6 +16,8 @@ app.use(cors({ origin: "0.0.0.0" }));
 
 app.use("/v1/auth", authRoutes);
 app.use("/v1/user", userRoutes);
+app.use("/v1/list", listRoutes);
+app.use("/v1/history", historyRoutes);
 app.use("/v1/data", dataRoutes);
 
 //error route handler
