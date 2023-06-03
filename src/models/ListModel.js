@@ -29,7 +29,7 @@ class ListModel {
     WHERE list.uid_fk = ${id} 
     AND list.status = ${status}`;
     const [result, _] = await db.query(sql);
-    return result[0];
+    return result;
   }
 
   static async getDetailList(id) {
@@ -62,6 +62,21 @@ class ListModel {
   static async addHistory(id) {
     const sql = `UPDATE list SET status = "false" WHERE id = ${id}`;
     const [result, _] = await db.query(sql);
+    return result[0];
+  }
+
+  static async addList(wisata_fk, hotel_fk, transportation_fk, uid_fk, restaurant_fk) {
+    const sql = `
+      INSERT INTO list (wisata_fk, hotel_fk, transportation_fk, uid_fk, restaurant_fk, status)
+      VALUES (?, ?, ?, ?, ?, "true")
+    `;
+    const [result, _] = await db.query(sql,[
+      wisata_fk,
+      hotel_fk,
+      transportation_fk,
+      uid_fk,
+      restaurant_fk
+    ]);
     return result[0];
   }
 }

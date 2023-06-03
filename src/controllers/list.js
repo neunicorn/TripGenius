@@ -34,24 +34,24 @@ class List {
     }
   }
   async addList(req, res) {
-    try {
-      const { wisata_fk, hotel_fk, tranportation_fk } = req.body;
-      const uid_fk = req.jwt.id;
-      const status = "true";
-      const data = {
+    try{
+      let uid_fk = req.jwt.id;
+      let { wisata_fk, hotel_fk, transportation_fk, restaurant_fk } = req.body;
+
+      const result = await ListModel.addList(
+        wisata_fk, 
+        hotel_fk, 
+        transportation_fk,
         uid_fk,
-        wisata_fk,
-        hotel_fk,
-        tranportation_fk,
-        status,
-      };
-      const result = await ListModel.addList(data);
+        restaurant_fk, 
+      );
       return res.status(200).json({
         status: true,
         message: "ADD_LIST_SUCCESS",
         data: result,
       });
-    } catch (err) {
+    }catch(err){
+      console.log(err);
       return res.status(err.code || 500).json({
         status: false,
         message: err.message,
