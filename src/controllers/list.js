@@ -35,14 +35,14 @@ class List {
   }
   async addList(req, res) {
     try{
-      let { id } = req.jwt;
+      let uid_fk = req.jwt.id;
       let { wisata_fk, hotel_fk, transportation_fk, restaurant_fk } = req.body;
 
       const result = await ListModel.addList(
         wisata_fk, 
         hotel_fk, 
         transportation_fk,
-        id,
+        uid_fk,
         restaurant_fk, 
       );
       return res.status(200).json({
@@ -58,7 +58,6 @@ class List {
       });
     }
   }
-
 }
 
 module.exports = new List();
