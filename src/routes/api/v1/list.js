@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get("/", jwtAuth(), ListController.getAllList);
 router.get("/detail", jwtAuth(), ListController.getDetailList);
-// router.post("/addList", jwtAuth(), ListController.addList);
+router.post("/addList", jwtAuth(), ListController.addList);
 
 module.exports = router;

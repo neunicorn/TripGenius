@@ -33,6 +33,32 @@ class List {
       });
     }
   }
+  async addList(req, res) {
+    try{
+      let { id } = req.jwt;
+      let { wisata_fk, hotel_fk, transportation_fk, restaurant_fk } = req.body;
+
+      const result = await ListModel.addList(
+        wisata_fk, 
+        hotel_fk, 
+        transportation_fk,
+        id,
+        restaurant_fk, 
+      );
+      return res.status(200).json({
+        status: true,
+        message: "ADD_LIST_SUCCESS",
+        data: result,
+      });
+    }catch(err){
+      console.log(err);
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
+
 }
 
 module.exports = new List();
