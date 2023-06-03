@@ -1,19 +1,6 @@
 const db = require("../db/db.js");
 
 class ListModel {
-  static async addList(data) {
-    const sql = `INSERT INTO list (uid_fk, wisata_fk, hotel_fk, transportation_fk, restaurant_fk, status) VALUES (?, ?, ?, ?, ?, ?)`;
-    const result = await db.query(sql, [
-      data.uid_fk,
-      data.wisata_fk,
-      data.hotel_fk,
-      data.transportation_fk,
-      data.restaurant_fk,
-      data.status,
-    ]);
-    return result;
-  }
-
   static async getAllList(id, status) {
     const sql = `SELECT 
     list.id as id, 
