@@ -133,5 +133,6 @@ class User {
       });
     }
   }
+  async updateAvatar(req, res) {}
 }
 module.exports = new User();
