@@ -64,7 +64,7 @@ class DataModel {
         category_resto.max_price, 
         restaurant.latitude, 
         restaurant.longtitude 
-        FROM restaurant JOIN category_resto ON restaurant.category = category_resto.id;
+        FROM restaurant JOIN category_resto ON restaurant.category = category_resto.id
         where restaurant.id = ${id}`;
         const result = await db.query(sql);
         return result[0]

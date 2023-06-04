@@ -99,6 +99,7 @@ class Data {
                 data: result,
             });
         }catch(err){
+            console.log(err);
             return res.status(err.code || 500).json({
                 status: false,
                 message: err.message,
