@@ -1,6 +1,7 @@
 const express = require("express");
 const jwtAuth = require("../../../middleware/jwtAuth");
 const multer = require("../../../middleware/multer-multipart");
+const ImageHelper = require("../../../helpers/ImageHelper");
 const router = express.Router();
 const UserController = require("../../../controllers/user.js");
 
@@ -9,6 +10,7 @@ router.put(
   "/updateAvatar/",
   jwtAuth(),
   multer.single("image"),
+  ImageHelper.uploadToGCS,
   UserController.updateAvatar
 );
 router.put("/updatePassword/", jwtAuth(), UserController.updatePassword);
