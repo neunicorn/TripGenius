@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
+const ImageHelper = require("../helpers/ImageHelper.js");
 const UserModel = require("../models/UserModel.js");
 
 class User {
@@ -40,6 +41,7 @@ class User {
     try {
       let { name, username, email, phone, home_town } = req.body;
       const oldData = await UserModel.getOneUser("id", req.jwt.id);
+      let avatar;
 
       if (!name) {
         name = oldData.name;
@@ -90,12 +92,24 @@ class User {
       if (!home_town) {
         home_town = oldData.home_town;
       }
+      if (req.file && req.file.cloudStorageObject) {
+        avatar = req.file.cloudStorageObject;
+        if (
+          oldData.profile_picture !== "default-user.png" &&
+          oldData.profile_picture !== avatar
+        ) {
+          await ImageHelper.deleteFromGCS(oldData.profile_picture);
+        }
+      } else {
+        avatar = oldData.profile_picture;
+      }
       const updateProfile = await UserModel.updateProfile(
         name,
         username,
         email,
         phone,
         home_town,
+        avatar,
         req.jwt.id
       );
       return res.status(200).json({
@@ -123,7 +137,7 @@ class User {
           email: getProfile.email,
           phone: getProfile.phone,
           home_town: getProfile.home_town,
-          profile_picture: getProfile.profile_picture,
+          profile_picture: ImageHelper.getPublicUrl(getProfile.profile_picture),
         },
       });
     } catch (err) {
@@ -133,5 +147,6 @@ class User {
       });
     }
   }
+  async updateAvatar(req, res) {}
 }
 module.exports = new User();
