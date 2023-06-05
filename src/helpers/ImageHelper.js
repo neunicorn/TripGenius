@@ -45,7 +45,7 @@ class ImageHelper {
     stream.end(req.file.buffer);
   }
   static async deleteFromGCS(filename) {
-    return await bucket.file(filename).delete();
+    await bucket.file(filename).delete();
   }
 }
 

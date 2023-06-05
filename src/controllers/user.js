@@ -98,7 +98,7 @@ class User {
           oldData.profile_picture !== "default-user.png" &&
           oldData.profile_picture !== avatar
         ) {
-          await ImageHelper.deleteFromGCS(oldData.profile_picture);
+          ImageHelper.deleteFromGCS(oldData.profile_picture);
         }
       } else {
         avatar = oldData.profile_picture;
@@ -147,6 +147,6 @@ class User {
       });
     }
   }
-  async updateAvatar(req, res) {}
+  async profileCheck(req, res) {}
 }
 module.exports = new User();

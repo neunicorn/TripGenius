@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const validator = require("validator");
 const UserModel = require("../models/UserModel.js");
+const ImageHelper = require("../helpers/ImageHelper.js");
 
 const generateAccesToken = async (payload) => {
   return jwt.sign(
@@ -105,6 +106,7 @@ class AuthController {
         name: isUserValid.name,
         username: isUserValid.username,
         email: isUserValid.email,
+        avatar: ImageHelper.getPublicUrl(isUserValid.profile_picture),
         accessToken,
       });
     } catch (err) {
