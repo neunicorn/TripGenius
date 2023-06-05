@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { Storage } = require("@google-cloud/storage");
+const fs = require("fs");
 const path = require("path");
 
 const pathKey = path.resolve("./serviceAccountKey.json");
@@ -37,10 +38,8 @@ class ImageHelper {
 
     stream.on("finish", () => {
       req.file.cloudStorageObject = gcsname;
-      file.makePublic().then(() => {
-        req.file.gcsUrl = ImageHelper.getPublicUrl(gcsname);
-        next();
-      });
+      req.file.gcsUrl = ImageHelper.getPublicUrl(gcsname);
+      next();
     });
 
     stream.end(req.file.buffer);

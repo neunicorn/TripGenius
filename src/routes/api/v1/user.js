@@ -6,13 +6,12 @@ const router = express.Router();
 const UserController = require("../../../controllers/user.js");
 
 router.get("/", jwtAuth(), UserController.getOneUser);
-router.put(
-  "/updateAvatar/",
-  jwtAuth(),
-  multer.single("image"),
-  ImageHelper.uploadToGCS,
-  UserController.updateAvatar
-);
 router.put("/updatePassword/", jwtAuth(), UserController.updatePassword);
-router.put("/updateProfile/", jwtAuth(), UserController.updateProfile);
+router.put(
+  "/updateProfile/",
+  jwtAuth(),
+  multer.single("avatar"),
+  ImageHelper.uploadToGCS,
+  UserController.updateProfile
+);
 module.exports = router;

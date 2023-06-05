@@ -54,7 +54,7 @@ class AuthController {
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
       let { name, username, email, phone, home_town } = req.body;
-      const avatar = req.file ? req.file.filename : null;
+      const avatar = "default-user.png";
       let user = new UserModel(
         name,
         username,
