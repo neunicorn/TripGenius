@@ -20,7 +20,13 @@ class List {
   async getDetailList(req, res) {
     try {
       const { id } = req.body;
-      const result = await ListModel.getDetailList(id);
+      const result = await ListModel.getDetailList(id, "true");
+      if (!result) {
+        throw {
+          code: 404,
+          message: "LIST_NOT_FOUND",
+        };
+      }
       return res.status(200).json({
         status: true,
         message: "GET_DETAIL_LIST_SUCCESS",
@@ -34,23 +40,35 @@ class List {
     }
   }
   async addList(req, res) {
-    try{
+    try {
       let uid_fk = req.jwt.id;
       let { wisata_fk, hotel_fk, transportation_fk, restaurant_fk } = req.body;
+      if (!wisata_fk) {
+        wisata_fk = null;
+      }
+      if (!hotel_fk) {
+        hotel_fk = null;
+      }
+      if (!transportation_fk) {
+        transportation_fk = null;
+      }
+      if (!restaurant_fk) {
+        restaurant_fk = null;
+      }
 
       const result = await ListModel.addList(
-        wisata_fk, 
-        hotel_fk, 
+        wisata_fk,
+        hotel_fk,
         transportation_fk,
         uid_fk,
-        restaurant_fk, 
+        restaurant_fk
       );
       return res.status(200).json({
         status: true,
         message: "ADD_LIST_SUCCESS",
         data: result,
       });
-    }catch(err){
+    } catch (err) {
       console.log(err);
       return res.status(err.code || 500).json({
         status: false,
