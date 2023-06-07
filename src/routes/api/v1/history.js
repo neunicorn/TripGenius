@@ -4,7 +4,7 @@ const jwtAuth = require("../../../middleware/jwtAuth");
 const router = express.Router();
 
 router.get("/", jwtAuth(), HistoryController.getAllHistory);
-router.get("/detail", jwtAuth(), HistoryController.getDetailHistory);
+router.get("/:id", jwtAuth(), HistoryController.getDetailHistory);
 router.put("/", jwtAuth(), HistoryController.addToHistory);
 
 module.exports = router;

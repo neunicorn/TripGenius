@@ -35,7 +35,7 @@ class History {
   }
   async getDetailHistory(req, res) {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const result = await HistoryModel.getDetailHistory(id);
       if (!result) {
         throw {

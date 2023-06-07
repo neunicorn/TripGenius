@@ -19,7 +19,7 @@ class List {
   }
   async getDetailList(req, res) {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       const result = await ListModel.getDetailList(id, "true");
       if (!result) {
         throw {
