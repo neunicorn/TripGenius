@@ -5,6 +5,7 @@ const ImageHelper = require("../../../helpers/ImageHelper");
 const router = express.Router();
 const UserController = require("../../../controllers/user.js");
 
+
 router.get("/", jwtAuth(), UserController.getOneUser);
 router.put("/updatePassword/", jwtAuth(), UserController.updatePassword);
 router.put(
