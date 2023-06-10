@@ -1,7 +1,7 @@
 const db = require("../db/db.js");
 
 class DataModel {
-  static async getHotel() {
+  static async getHotel(OFFSET) {
     const sql = `select
         hotel.id, 
         hotel.hotel_name, 
@@ -11,7 +11,8 @@ class DataModel {
         hotel_price.min_price, 
         hotel_price.max_price 
         FROM hotel JOIN hotel_category on hotel.hotel_category = hotel_category.id 
-        JOIN hotel_price ON hotel.hotel_star = hotel_price.id `;
+        JOIN hotel_price ON hotel.hotel_star = hotel_price.id 
+        LIMIT 10 OFFSET ${OFFSET}`;
     const result = await db.query(sql);
     return result[0];
   }
@@ -31,8 +32,8 @@ class DataModel {
     return result[0];
   }
 
-  static async getDestination() {
-    const sql = `select * from tempat_wisata where city = "bandung"`;
+  static async getDestination(OFFSET) {
+    const sql = `select * from tempat_wisata where city = "bandung" LIMIT 10 OFFSET ${OFFSET}`;
     const result = await db.query(sql);
     return result[0];
   }
@@ -42,7 +43,7 @@ class DataModel {
     return result[0];
   }
 
-  static async getRestaurant() {
+  static async getRestaurant(OFFSET) {
     const sql = `select 
         restaurant.id, 
         restaurant.resto_name, 
@@ -52,10 +53,12 @@ class DataModel {
         category_resto.max_price, 
         restaurant.latitude, 
         restaurant.longtitude 
-        FROM restaurant JOIN category_resto ON restaurant.category = category_resto.id`;
+        FROM restaurant JOIN category_resto ON restaurant.category = category_resto.id
+        LIMIT 10 OFFSET ${OFFSET}`;
     const result = await db.query(sql);
     return result[0];
   }
+
   static async getDetailRestaurant(id) {
     const sql = `select 
         restaurant.id, 

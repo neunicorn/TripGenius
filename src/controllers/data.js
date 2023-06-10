@@ -3,7 +3,9 @@ const DataModel = require("../models/DataModel.js");
 class Data {
   async getDestination(req, res) {
     try {
-      const result = await DataModel.getDestination();
+      const { page } = req.body;
+      const OFFSET = (page - 1) * 10;
+      const result = await DataModel.getDestination(OFFSET);
 
       return res.status(200).json({
         status: true,
@@ -38,7 +40,9 @@ class Data {
 
   async getHotel(req, res) {
     try {
-      const result = await DataModel.getHotel();
+      const { page } = req.body;
+      const OFFSET = (page - 1) * 10;
+      const result = await DataModel.getHotel(OFFSET);
 
       return res.status(200).json({
         status: true,
@@ -73,7 +77,9 @@ class Data {
 
   async getRestaurant(req, res) {
     try {
-      const result = await DataModel.getRestaurant();
+      const { page } = req.body;
+      const OFFSET = (page - 1) * 10;
+      const result = await DataModel.getRestaurant(OFFSET);
 
       return res.status(200).json({
         status: true,
