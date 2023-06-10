@@ -106,7 +106,7 @@ class AuthController {
         name: isUserValid.name,
         username: isUserValid.username,
         email: isUserValid.email,
-        avatar: ImageHelper.getPublicUrl(isUserValid.profile_picture),
+        avatar: ImageHelper.getPublicUrl("avatar", isUserValid.profile_picture),
         accessToken,
       });
     } catch (err) {

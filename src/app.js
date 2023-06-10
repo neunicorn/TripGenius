@@ -6,6 +6,8 @@ const userRoutes = require("./routes/api/v1/user.js");
 const listRoutes = require("./routes/api/v1/list.js");
 const historyRoutes = require("./routes/api/v1/history.js");
 const dataRoutes = require("./routes/api/v1/data.js");
+const profileCheck = require("./routes/api/v1/profileCheck.js");
+const machineLearning = require("./routes/api/v1/machineLearning.js");
 const db = require("./db/db.js");
 const app = express();
 
@@ -19,6 +21,8 @@ app.use("/v1/user", userRoutes);
 app.use("/v1/list", listRoutes);
 app.use("/v1/history", historyRoutes);
 app.use("/v1/data", dataRoutes);
+app.use("/v1/profileCheck", profileCheck);
+app.use("/v1/machineLearning", machineLearning);
 
 //error route handler
 app.use((req, res, next) => {

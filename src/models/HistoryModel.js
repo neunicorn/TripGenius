@@ -1,11 +1,15 @@
-const db = require("../db/db.js");
+const db = require("../db/db");
 
-class ListModel {
-  static async getAllList(id, status) {
+class HistoryModel {
+  static async addHistory(id) {
+    const sql = `UPDATE list SET status = "false" WHERE id = ${id}`;
+    const [result, _] = await db.query(sql);
+    return result[0];
+  }
+  static async getAllHistory(id) {
     const sql = `SELECT 
     list.id as id, 
-    tempat_wisata.place_name as destinasi,
-    tempat_wisata.image as gambar_wisata, 
+    tempat_wisata.place_name as destinasi, 
     hotel.hotel_name as hotel, 
     transportation.name as kendaraan, 
     restaurant.resto_name as restaurant 
@@ -15,19 +19,18 @@ class ListModel {
     LEFT JOIN transportation ON (list.transportation_fk = transportation.id)
     LEFT JOIN restaurant ON (list.restaurant_fk = restaurant.id)
     WHERE list.uid_fk = ${id}
-    AND list.status = true`;
+    AND list.status = "false"`;
     const [result, _] = await db.query(sql);
     return result[0];
   }
 
-  static async getDetailList(id, status) {
+  static async getDetailHistory(id) {
     const sql = `
     SELECT
     list.id as id, 
     tempat_wisata.place_name as destinasi,
     tempat_wisata.description as deskripsi,
     tempat_wisata.category as kategori_wisata,
-    tempat_wisata.image = gambar_wisata
     hotel.hotel_name as hotel,
     hotel_price.name as bintang,
     hotel.address as alamat_hotel,
@@ -43,31 +46,11 @@ class ListModel {
     LEFT JOIN category_resto ON (restaurant.category = category_resto.id)
     LEFT JOIN transportation ON (list.transportation_fk = transportation.id)
     WHERE list.id = ${id}
-    AND list.status = true
+    AND list.status = "false"
     `;
     const [result, _] = await db.query(sql);
     return result[0];
   }
-
-  static async addList(
-    wisata_fk,
-    hotel_fk,
-    transportation_fk,
-    uid_fk,
-    restaurant_fk
-  ) {
-    const sql = `
-      INSERT INTO list (wisata_fk, hotel_fk, transportation_fk, uid_fk, restaurant_fk, status)
-      VALUES (?, ?, ?, ?, ?, "true")
-    `;
-    const [result, _] = await db.query(sql, [
-      wisata_fk,
-      hotel_fk,
-      transportation_fk,
-      uid_fk,
-      restaurant_fk,
-    ]);
-    return result[0];
-  }
 }
-module.exports = ListModel;
+
+module.exports = HistoryModel;

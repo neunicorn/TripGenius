@@ -65,5 +65,12 @@ class UserModel {
     ]);
     return result[0];
   }
+
+    static async profileCheck(age,location,id){
+    const sql = `UPDATE user SET age = ?, location = ? WHERE id = ?`;
+    const result = await db.query(sql,[age,location,id]);
+    return result[0];
+  }
+
 }
 module.exports = UserModel;

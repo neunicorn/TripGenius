@@ -4,7 +4,7 @@ const jwtAuth = require("../../../middleware/jwtAuth");
 const router = express.Router();
 
 router.get("/", jwtAuth(), ListController.getAllList);
-router.get("/detail", jwtAuth(), ListController.getDetailList);
+router.get("/:id", jwtAuth(), ListController.getDetailList);
 router.post("/", jwtAuth(), ListController.addList);
 
 module.exports = router;
