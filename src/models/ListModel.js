@@ -4,7 +4,8 @@ class ListModel {
   static async getAllList(id, status) {
     const sql = `SELECT 
     list.id as id, 
-    tempat_wisata.place_name as destinasi, 
+    tempat_wisata.place_name as destinasi,
+    tempat_wisata.image as gambar_wisata, 
     hotel.hotel_name as hotel, 
     transportation.name as kendaraan, 
     restaurant.resto_name as restaurant 
@@ -26,6 +27,7 @@ class ListModel {
     tempat_wisata.place_name as destinasi,
     tempat_wisata.description as deskripsi,
     tempat_wisata.category as kategori_wisata,
+    tempat_wisata.image = gambar_wisata
     hotel.hotel_name as hotel,
     hotel_price.name as bintang,
     hotel.address as alamat_hotel,

@@ -1,4 +1,5 @@
 const DataModel = require("../models/DataModel.js");
+const ImageHelper = require("../helpers/ImageHelper.js");
 
 class Data {
   async getDestination(req, res) {
@@ -10,7 +11,18 @@ class Data {
       return res.status(200).json({
         status: true,
         message: "GET_DATA_SUCCESS",
-        data: result,
+        data: {
+          id: result.id,
+          name: result.place_name,
+          description: result.description,
+          category: result.category,
+          city: result.city,
+          price: result.price,
+          rating: result.rating,
+          image: ImageHelper.getPublicUrl("destination_picture", result.image),
+          lat: result.latitude,
+          long: result.longitude,
+        },
       });
     } catch (err) {
       return res.status(err.code || 500).json({
@@ -28,7 +40,18 @@ class Data {
       return res.status(200).json({
         status: true,
         message: "GET_DATA_SUCCESS",
-        data: result,
+        data: {
+          id: result.id,
+          name: result.place_name,
+          description: result.description,
+          category: result.category,
+          city: result.city,
+          price: result.price,
+          rating: result.rating,
+          image: ImageHelper.getPublicUrl("destination_picture", result.image),
+          lat: result.latitude,
+          long: result.longitude,
+        },
       });
     } catch (err) {
       return res.status(err.code || 500).json({
