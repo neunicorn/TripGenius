@@ -137,7 +137,10 @@ class User {
           email: getProfile.email,
           phone: getProfile.phone,
           home_town: getProfile.home_town,
-          profile_picture: ImageHelper.getPublicUrl(getProfile.profile_picture),
+          profile_picture: ImageHelper.getPublicUrl(
+            "avatar",
+            getProfile.profile_picture
+          ),
         },
       });
     } catch (err) {

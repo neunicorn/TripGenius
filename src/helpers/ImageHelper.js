@@ -2,6 +2,7 @@ require("dotenv").config();
 const { Storage } = require("@google-cloud/storage");
 const fs = require("fs");
 const path = require("path");
+const { param } = require("../routes/api/v1/machineLearning");
 
 const pathKey = path.resolve("./serviceAccountKey.json");
 
@@ -11,11 +12,13 @@ const cloudStorage = new Storage({
 });
 
 const bucketName = process.env.GCP_BUCKET_NAME;
+const bucketDirectory = process.env.GCP_DIRECTORY_BUCKET;
 const bucket = cloudStorage.bucket(bucketName);
 
 class ImageHelper {
-  static getPublicUrl(filename) {
-    return `https://storage.googleapis.com/${bucketName}/${filename}`;
+  // @param({ foldername: String, filename: String });
+  static getPublicUrl(foldername, filename) {
+    return `https://storage.googleapis.com/${bucketName}/${foldername}/${filename}`;
   }
 
   static async uploadToGCS(req, res, next) {
@@ -24,7 +27,7 @@ class ImageHelper {
     }
 
     const gcsname = Date.now() + req.file.originalname;
-    const file = bucket.file(gcsname);
+    const file = bucket.file(`${bucketDirectory}/${gcsname}`);
     const stream = file.createWriteStream({
       metadata: {
         contentType: req.file.mimetype,
@@ -45,7 +48,7 @@ class ImageHelper {
     stream.end(req.file.buffer);
   }
   static async deleteFromGCS(filename) {
-    await bucket.file(filename).delete();
+    await bucket.file(`${bucketDirectory}/${filename}`).delete();
   }
 }
 
