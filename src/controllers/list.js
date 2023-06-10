@@ -1,4 +1,5 @@
 const ListModel = require("../models/ListModel.js");
+const ImageHelper = require("../helpers/ImageHelper.js");
 
 class List {
   async getAllList(req, res) {
@@ -8,7 +9,17 @@ class List {
       return res.status(200).json({
         status: true,
         message: "GET_ALL_LIST_SUCCESS",
-        data: result,
+        data: {
+          id: result.id,
+          destinasi: result.destinasi,
+          img: ImageHelper.getPublicUrl(
+            "destination_picture",
+            result.gambar_wisata
+          ),
+          hotel: result.hotel,
+          restaurant: result.restaurant,
+          transportasi: result.transportasi,
+        },
       });
     } catch (err) {
       return res.status(err.code || 500).json({
@@ -31,6 +42,10 @@ class List {
         status: true,
         message: "GET_DETAIL_LIST_SUCCESS",
         data: result,
+        img: ImageHelper.getPublicUrl(
+          "destination_picture",
+          result.gambar_wisata
+        ),
       });
     } catch (err) {
       return res.status(err.code || 500).json({
