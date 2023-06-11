@@ -2,7 +2,6 @@ require("dotenv").config();
 const { Storage } = require("@google-cloud/storage");
 const fs = require("fs");
 const path = require("path");
-const { param } = require("../routes/api/v1/machineLearning");
 
 const pathKey = path.resolve("./serviceAccountKey.json");
 
