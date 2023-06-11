@@ -6,20 +6,23 @@ class List {
     try {
       const { id } = req.jwt;
       const result = await ListModel.getAllList(id, "true");
+      const data = result.map((item) => {
+        return {
+          id: item.id,
+          destinasi: item.destinasi,
+          img: ImageHelper.getPublicUrl(
+            "destination_picture",
+            item.gambar_wisata
+          ),
+          hotel: item.hotel,
+          restaurant: item.restaurant,
+          transportasi: item.transportasi,
+        };
+      });
       return res.status(200).json({
         status: true,
         message: "GET_ALL_LIST_SUCCESS",
-        data: {
-          id: result.id,
-          destinasi: result.destinasi,
-          img: ImageHelper.getPublicUrl(
-            "destination_picture",
-            result.gambar_wisata
-          ),
-          hotel: result.hotel,
-          restaurant: result.restaurant,
-          transportasi: result.transportasi,
-        },
+        data,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
