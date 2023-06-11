@@ -7,22 +7,26 @@ class Data {
       const { page } = req.body;
       const OFFSET = (page - 1) * 10;
       const result = await DataModel.getDestination(OFFSET);
+      const data = result.map((item) => {
+        return {
+          id: item.id,
+          name: item.place_name,
+          description: item.description,
+          category: item.category,
+          city: item.city,
+          price: item.price,
+          rating: item.rating,
+          image: ImageHelper.getPublicUrl("destination_picture", item.image),
+          lat: item.latitude,
+          long: item.longtitude,
+          coodinate: item.coordinate,
+        };
+      });
 
       return res.status(200).json({
         status: true,
         message: "GET_DATA_SUCCESS",
-        data: {
-          id: result.id,
-          name: result.place_name,
-          description: result.description,
-          category: result.category,
-          city: result.city,
-          price: result.price,
-          rating: result.rating,
-          image: ImageHelper.getPublicUrl("destination_picture", result.image),
-          lat: result.latitude,
-          long: result.longitude,
-        },
+        data,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
@@ -36,22 +40,24 @@ class Data {
     try {
       const { id } = req.params;
       const result = await DataModel.getDetailDestination(id);
+      const data = {
+        id: result.id,
+        name: result.place_name,
+        description: result.description,
+        category: result.category,
+        city: result.city,
+        price: result.price,
+        rating: result.rating,
+        image: ImageHelper.getPublicUrl("destination_picture", result.image),
+        lat: result.latitude,
+        long: result.longtitude,
+        coodinate: result.coordinate,
+      };
 
       return res.status(200).json({
         status: true,
         message: "GET_DATA_SUCCESS",
-        data: {
-          id: result.id,
-          name: result.place_name,
-          description: result.description,
-          category: result.category,
-          city: result.city,
-          price: result.price,
-          rating: result.rating,
-          image: ImageHelper.getPublicUrl("destination_picture", result.image),
-          lat: result.latitude,
-          long: result.longitude,
-        },
+        data,
       });
     } catch (err) {
       return res.status(err.code || 500).json({
