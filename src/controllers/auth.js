@@ -54,7 +54,7 @@ class AuthController {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-      let { name, username, email, phone, home_town } = req.body;
+      let { name, username, email, phone, home_town, age, gender, location } = req.body;
       const avatar = "default-user.png";
       let user = new UserModel(
         name,
@@ -63,6 +63,9 @@ class AuthController {
         hashedPassword,
         phone,
         home_town,
+        age,
+        gender,
+        location,
         avatar
       );
       user = await user.save();
