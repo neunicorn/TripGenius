@@ -39,7 +39,7 @@ class DataModel {
   }
   static async getDetailDestination(id) {
     const sql = `select * from tempat_wisata where id = ${id}`;
-    const result = await db.query(sql);
+    const [result, _] = await db.query(sql);
     return result[0];
   }
 
