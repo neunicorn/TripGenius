@@ -84,6 +84,7 @@ class AuthController {
       });
     }
   }
+
   async login(req, res) {
     try {
       const { email, password } = req.body;
@@ -106,11 +107,11 @@ class AuthController {
       return res.status(200).json({
         status: true,
         message: "LOGIN_SUCCESS",
-        name: isUserValid.name,
-        username: isUserValid.username,
-        email: isUserValid.email,
-        avatar: ImageHelper.getPublicUrl("avatar", isUserValid.profile_picture),
-        accessToken,
+        data : {
+          id: isUserValid.id,
+          name: isUserValid.name,
+          accessToken,
+        },
       });
     } catch (err) {
       return res.status(err.code || 500).json({
