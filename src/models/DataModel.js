@@ -83,8 +83,6 @@ class DataModel {
   }
 
   static async getRestaurantById(id_1) {
-    // get restaurant by lot of id
-    console.log(id_1);
     const sql = `select * from restaurant where id in (?)`;
     const [result, _] = await db.query(sql, [id_1]);
     return result;

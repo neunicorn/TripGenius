@@ -6,16 +6,6 @@ const DataController = require("../../../controllers/data.js");
 router.get("/destination", jwtAuth(), DataController.getDestination);
 router.get("/hotel", jwtAuth(), DataController.getHotel);
 router.get("/restaurant", jwtAuth(), DataController.getRestaurant);
-router.get(
-  "/restaurant/predict",
-  jwtAuth(),
-  DataController.getRestaurantPredict
-);
-router.get(
-  "/destination/predict",
-  jwtAuth(),
-  DataController.getDestinationPredict
-);
 router.get("/hotel/:id", jwtAuth(), DataController.getDetailHotel);
 router.get("/restaurant/:id", jwtAuth(), DataController.getDetailRestaurant);
 router.get("/destination/:id", jwtAuth(), DataController.getDetailDestination);
