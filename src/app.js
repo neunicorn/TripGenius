@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 const authRoutes = require("./routes/api/v1/auth.js");
 const userRoutes = require("./routes/api/v1/user.js");
@@ -11,9 +12,10 @@ const db = require("./db/db.js");
 const app = express();
 
 //parsing application/json
-app.use(express.json());
+// app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "0.0.0.0" }));
+app.use(cors({ origin: "*" }));
 
 app.use("/v1/auth", authRoutes);
 app.use("/v1/user", userRoutes);
