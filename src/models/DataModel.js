@@ -11,8 +11,7 @@ class DataModel {
         hotel_price.min_price, 
         hotel_price.max_price 
         FROM hotel JOIN hotel_category on hotel.hotel_category = hotel_category.id 
-        JOIN hotel_price ON hotel.hotel_star = hotel_price.id 
-        LIMIT 10 OFFSET ${OFFSET}`;
+        JOIN hotel_price ON hotel.hotel_star = hotel_price.id `;
     const result = await db.query(sql);
     return result[0];
   }
@@ -33,7 +32,7 @@ class DataModel {
   }
 
   static async getDestination(OFFSET) {
-    const sql = `select * from tempat_wisata where city = "bandung" LIMIT 10 OFFSET ${OFFSET}`;
+    const sql = `select * from tempat_wisata where city = "bandung"`;
     const result = await db.query(sql);
     return result[0];
   }
@@ -53,8 +52,7 @@ class DataModel {
         category_resto.max_price, 
         restaurant.latitude, 
         restaurant.longtitude 
-        FROM restaurant JOIN category_resto ON restaurant.category = category_resto.id
-        LIMIT 10 OFFSET ${OFFSET}`;
+        FROM restaurant JOIN category_resto ON restaurant.category = category_resto.id`;
     const result = await db.query(sql);
     return result[0];
   }

@@ -6,7 +6,7 @@ class Data {
     try {
       const { page } = req.body;
       const OFFSET = (page - 1) * 10;
-      const result = await DataModel.getDestination(OFFSET);
+      const result = await DataModel.getDestination();
       const data = result.map((item) => {
         return {
           id: item.id,
@@ -22,20 +22,19 @@ class Data {
           coodinate: item.coordinate,
         };
       });
-
       return res.status(200).json({
         status: true,
         message: "GET_DATA_SUCCESS",
         data,
       });
     } catch (err) {
+      console.log(err);
       return res.status(err.code || 500).json({
         status: false,
         message: err.message,
       });
     }
   }
-
   async getDetailDestination(req, res) {
     try {
       const { id } = req.params;
@@ -71,7 +70,7 @@ class Data {
     try {
       const { page } = req.body;
       const OFFSET = (page - 1) * 10;
-      const result = await DataModel.getHotel(OFFSET);
+      const result = await DataModel.getHotel();
 
       return res.status(200).json({
         status: true,
@@ -108,7 +107,7 @@ class Data {
     try {
       const { page } = req.body;
       const OFFSET = (page - 1) * 10;
-      const result = await DataModel.getRestaurant(OFFSET);
+      const result = await DataModel.getRestaurant();
 
       return res.status(200).json({
         status: true,
