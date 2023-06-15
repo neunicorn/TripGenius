@@ -3,7 +3,7 @@ const DataModel = require("../models/DataModel.js");
 class MachineLearning {
   async getRestaurantPredict(req, res) {
     try {
-      const { id } = req.body;
+      const { id } = req.query;
       console.log(id);
       const result = await DataModel.getRestaurantById(id);
 
@@ -22,7 +22,8 @@ class MachineLearning {
   }
   async getDestinationPredict(req, res) {
     try {
-      const { id } = req.body;
+      const { id } = req.query;
+      console.log(id);
       const result = await DataModel.getDestinationById(id);
 
       return res.status(200).json({
