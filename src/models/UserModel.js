@@ -1,7 +1,18 @@
 const db = require("../db/db.js");
 
 class UserModel {
-  constructor(name, username, email, password, phone, home_town, age, gender, location, avatar) {
+  constructor(
+    name,
+    username,
+    email,
+    password,
+    phone,
+    home_town,
+    age,
+    gender,
+    location,
+    avatar
+  ) {
     this.name = name;
     this.username = username;
     this.email = email;
@@ -27,7 +38,7 @@ class UserModel {
       this.age,
       this.gender,
       this.location,
-      this.avatar
+      this.avatar,
     ]);
     return result;
   }
@@ -71,6 +82,5 @@ class UserModel {
     ]);
     return result[0];
   }
-
 }
 module.exports = UserModel;

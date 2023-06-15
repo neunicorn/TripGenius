@@ -74,5 +74,20 @@ class DataModel {
     const result = await db.query(sql);
     return result[0];
   }
+
+  static async getDestinationById(id) {
+    // get destination by lot of id
+    const sql = `select * from tempat_wisata where id in (?)`;
+    const [result, _] = await db.query(sql, [id]);
+    return result;
+  }
+
+  static async getRestaurantById(id_1) {
+    // get restaurant by lot of id
+    console.log(id_1);
+    const sql = `select * from restaurant where id in (?)`;
+    const [result, _] = await db.query(sql, [id_1]);
+    return result;
+  }
 }
 module.exports = DataModel;
