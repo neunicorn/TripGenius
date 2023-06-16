@@ -1,4 +1,5 @@
 const DataModel = require("../models/DataModel.js");
+const ImageHelper = require("../helpers/ImageHelper.js");
 
 class MachineLearning {
   async getRestaurantPredict(req, res) {
@@ -25,11 +26,21 @@ class MachineLearning {
       const { id } = req.query;
       console.log(id);
       const result = await DataModel.getDestinationById(id);
-
+      const data = result.map((item) => {
+        return {
+          id: item.id,
+          place_name: item.place_name,
+          image: ImageHelper.getPublicUrl("destination_picture", item.image),
+          description: item.description,
+          category: item.category,
+          city: item.city,
+          rating: item.rating,
+        };
+      });
       return res.status(200).json({
         status: true,
         message: "GET_DATA_SUCCESS",
-        data: result,
+        data,
       });
     } catch (err) {
       console.log(err);
