@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Trip Genius App</string>
+    <string name="registrasi">Registrasi</string>
+    <string name="log_in">Login</string>
+    <string name="title_registrasi">Fill your identity first</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="logout">LogOut</string>
+    <string name="create_post">Post your story</string>
+    <string name="hello">Hello There, %1$s !! </string>
+    <string name="story">Tell us you story today</string>
+    <string name="timestamp">timestamp</string>
+    <string name="user_name">user name</string>
+
+    <string name="exit">Exit</string>
+    <string name="phone">Phone Number</string>
+    <string name="age">Age</string>
+    <string name="gender">Gender</string>
+    <string name="location">Jawa Barat, Bandung</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_list">List</string>
+    <string name="title_profile">Profile</string>
+    <string name="destinasi">Destinasi</string>
+    <string name="deskripsi">Deskripsi</string>
+    <string name="destinasi2">Gunung Tangguban Perahu</string>
+    <string name="deskripsi2">Gunung Tangkuban Parahu) adalah salah satu gunung yang terletak di Lembang, Kabupaten Bandung Barat, Provinsi Jawa Barat,
+                              Indonesia. Sekitar 20 km ke arah utara Kota Bandung, dengan rimbun pohon pinus dan hamparan kebun teh di sekitarnya, Gunung Tangkuban
+                              Parahu mempunyai ketinggian setinggi 2.084 meter. Bentuk gunung ini adalah Stratovulcano dengan pusat erupsi yang berpindah dari timur ke
+                              barat. Jenis batuan yang dikeluarkan melalui letusan kebanyakan adalah lava dan sulfur,
+                              mineral yang dikeluarkan adalah sulfur belerang, mineral yang dikeluarkan saat gunung tidak aktif adalah uap belerang.</string>
+    <string name="description">Description</string>
+    <string name="sub_title">--- You might like it ---</string>
+    <string name="recom_place">Restaurant Recommendations</string>
+    <string name="judul">Judul</string>
+</resources>
