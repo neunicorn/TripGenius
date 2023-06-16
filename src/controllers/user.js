@@ -136,7 +136,8 @@ class User {
           username: getProfile.username,
           email: getProfile.email,
           phone: getProfile.phone,
-          home_town: getProfile.home_town,
+          location: getProfile.home_town,
+          age: getProfile.age,
           profile_picture: ImageHelper.getPublicUrl(
             "avatar",
             getProfile.profile_picture

@@ -4,7 +4,7 @@ const ImageHelper = require("../helpers/ImageHelper.js");
 class Data {
   async getDestination(req, res) {
     try {
-      const { page } = req.body;
+      const { page } = req.params;
       const OFFSET = (page - 1) * 10;
       const result = await DataModel.getDestination(OFFSET);
       const data = result.map((item) => {
@@ -22,20 +22,19 @@ class Data {
           coodinate: item.coordinate,
         };
       });
-
       return res.status(200).json({
         status: true,
         message: "GET_DATA_SUCCESS",
         data,
       });
     } catch (err) {
+      console.log(err);
       return res.status(err.code || 500).json({
         status: false,
         message: err.message,
       });
     }
   }
-
   async getDetailDestination(req, res) {
     try {
       const { id } = req.params;
@@ -69,7 +68,7 @@ class Data {
 
   async getHotel(req, res) {
     try {
-      const { page } = req.body;
+      const { page } = req.params;
       const OFFSET = (page - 1) * 10;
       const result = await DataModel.getHotel(OFFSET);
 
@@ -106,7 +105,7 @@ class Data {
 
   async getRestaurant(req, res) {
     try {
-      const { page } = req.body;
+      const { page } = req.params;
       const OFFSET = (page - 1) * 10;
       const result = await DataModel.getRestaurant(OFFSET);
 
@@ -141,6 +140,44 @@ class Data {
       });
     }
   }
+
+  async getRestaurantPredict(req, res) {
+    try {
+      const { id } = req.body;
+      console.log(id);
+      const result = await DataModel.getRestaurantById(id);
+
+      return res.status(200).json({
+        status: true,
+        message: "GET_DATA_SUCCESS",
+        data: result,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
+  async getDestinationPredict(req, res) {
+    try {
+      const { id } = req.body;
+      const result = await DataModel.getDestinationById(id);
+      return res.status(200).json({
+        status: true,
+        message: "GET_DATA_SUCCESS",
+        data: result,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.status(err.code || 500).json({
+        status: false,
+        message: err.message,
+      });
+    }
+  }
+
 }
 
 module.exports = new Data();

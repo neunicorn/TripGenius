@@ -54,7 +54,7 @@ class AuthController {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-      let { name, username, email, phone, home_town } = req.body;
+      let { name, username, email, phone, home_town, age, gender, location } = req.body;
       const avatar = "default-user.png";
       let user = new UserModel(
         name,
@@ -63,6 +63,9 @@ class AuthController {
         hashedPassword,
         phone,
         home_town,
+        age,
+        gender,
+        location,
         avatar
       );
       user = await user.save();
@@ -81,6 +84,7 @@ class AuthController {
       });
     }
   }
+
   async login(req, res) {
     try {
       const { email, password } = req.body;
@@ -103,11 +107,11 @@ class AuthController {
       return res.status(200).json({
         status: true,
         message: "LOGIN_SUCCESS",
-        name: isUserValid.name,
-        username: isUserValid.username,
-        email: isUserValid.email,
-        avatar: ImageHelper.getPublicUrl("avatar", isUserValid.profile_picture),
-        accessToken,
+        data : {
+          id: isUserValid.id,
+          name: isUserValid.name,
+          accessToken,
+        },
       });
     } catch (err) {
       return res.status(err.code || 500).json({

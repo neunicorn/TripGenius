@@ -1,19 +1,33 @@
 const db = require("../db/db.js");
 
 class UserModel {
-  constructor(name, username, email, password, phone, home_town, avatar) {
+  constructor(
+    name,
+    username,
+    email,
+    password,
+    phone,
+    home_town,
+    age,
+    gender,
+    location,
+    avatar
+  ) {
     this.name = name;
     this.username = username;
     this.email = email;
     this.password = password;
     this.phone = phone;
     this.home_town = home_town;
+    this.age = age;
+    this.gender = gender;
+    this.location = location;
     this.avatar = avatar;
   }
 
   async save() {
-    const sql = `INSERT INTO user (name, username, email, password, phone, home_town, profile_picture) 
-        VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO user (name, username, email, password, phone, home_town, age, gender, location, profile_picture) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const result = await db.query(sql, [
       this.name,
       this.username,
@@ -21,6 +35,9 @@ class UserModel {
       this.password,
       this.phone,
       this.home_town,
+      this.age,
+      this.gender,
+      this.location,
       this.avatar,
     ]);
     return result;
@@ -65,12 +82,5 @@ class UserModel {
     ]);
     return result[0];
   }
-
-    static async profileCheck(age,location,id){
-    const sql = `UPDATE user SET age = ?, location = ? WHERE id = ?`;
-    const result = await db.query(sql,[age,location,id]);
-    return result[0];
-  }
-
 }
 module.exports = UserModel;
