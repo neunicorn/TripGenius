@@ -90,13 +90,23 @@ def simmilar_pred():
     result = cursor.fetchone()
     # return simmilar_place_recommendations(result[0])
     suggest = simmilar_place_recommendations(result[0])
-    suggest1 = str(suggest[0])
-    suggest2 = str(suggest[1])
-    suggest = '{}'
-    data= json.loads(suggest)
-    data[0] = suggest1
-    data[1] = suggest2
-    jsonString = json.dumps(data)
+    suggest1 = int(suggest[0])
+    suggest2 = int(suggest[1])
+    print(type(suggest1))
+    print(type(suggest2))
+    jsonFirst = '{}'
+    data= json.loads(jsonFirst)
+    data = []
+    data.append(suggest1)
+    data.append(suggest2)
+    print(type(data))
+
+    test = []
+    for i in range(len(data)):
+        test.append({'idPredict': i, 'id': str(data[i])})
+    
+    res = {'data': test}
+    jsonString = json.dumps(res)
     response = make_response(jsonString)
     response.headers['Content-Type'] = 'application/json'
 
