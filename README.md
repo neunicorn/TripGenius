@@ -23,8 +23,18 @@
      ```
      npm run start-dev
      ```
+     By default the application will run on port `8080`. To change this, you can change on the .env `PORT` or you can hardcode on the `src/app.js` file on the listen arguments.
+3. Building Container Image :  
+   - Build your image with command: 
+  
+      ```
+      docker build -t tripgenius/local:latest .
+      ```  
+   - Run docker image
+     ```
+     docker run -p 8080:8080 tripgenius/local:latest 
+     ```
      
-
 ## Dependencies and Technologies  
 To create this project we used several dependencies and technologies, among others:   
 -  **@google-cloud/storage** : `6.10.1`  
