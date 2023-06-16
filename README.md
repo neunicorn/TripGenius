@@ -50,9 +50,9 @@ To create this project we used several dependencies and technologies, among othe
   Our Team consisted of 1 MD student, 2 CC students, and 3 ML students. The information of our team members are:  
   | NUM | ID | NAME | LEARNING PATH | UNIVERSITY |  
   |---|---|---|---|---|  
-  | 1 | M213DSX0092 | Gerry Nathanael Hersan | Machine Learning | Universitas Katolik Parahyangan |  
-  | 2 | M213DSY0581 | Angelina Jeany | Machine Learning | Universitas Katolik Parahyangan | 
-  | 3 | M213DSX1771 | Peter Abraham Metranus Irvianto | Machine Learning | Universitas Katolik Parahyangan | 
-  | 4 | C125DKX4623 | Muhamad Zulfan Taqiyudin Baehaki | Cloud Computing | UIN Syarif Hidayatullah Jakarta | 
-  | 5 | C125DKX4605 | Muhammad Zhafran Athofani | Cloud Computing | UIN Syarif Hidayatullah Jakarta |  
-  | 6 | A032DSX3419  | Jefanya Brian | Mobile Development | Institut Teknologi Harapan Bangsa |
+  | 1 | M213DSX0092 | [Gerry Nathanael Hersan](https://github.com/Reco26) | Machine Learning | Universitas Katolik Parahyangan |  
+  | 2 | M213DSY0581 | [Angelina Jeany](https://github.com/angelina734) | Machine Learning | Universitas Katolik Parahyangan | 
+  | 3 | M213DSX1771 | [Peter Abraham Metranus Irvianto](https://github.com/peterabrhm) | Machine Learning | Universitas Katolik Parahyangan | 
+  | 4 | C125DKX4623 | [Muhamad Zulfan Taqiyudin Baehaki](https://github.com/neunicorn) | Cloud Computing | UIN Syarif Hidayatullah Jakarta | 
+  | 5 | C125DKX4605 | [Muhammad Zhafran Athofani](https://github.com/Zhafranath) | Cloud Computing | UIN Syarif Hidayatullah Jakarta |  
+  | 6 | A032DSX3419  | [Jefanya Brian](https://github.com/JefanyaB) | Mobile Development | Institut Teknologi Harapan Bangsa |
