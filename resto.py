@@ -154,7 +154,7 @@ class myCallback(tf.keras.callbacks.Callback):
 history = model.fit(
     x = x_train,
     y = y_train_encoded,
-    epochs = 100,
+    epochs = 5,
     validation_data = (x_val, y_val_encoded),
     callbacks = [myCallback()]
 )
@@ -231,14 +231,17 @@ def predict_resto():
     for i in range(len(suggest3)):
       final_suggestion.append(suggest3['id'].values[i])
 
-    
-    res = '{}'
-    data= json.loads(res)
-    for i in range( len(final_suggestion)):
-      data[i] = str(final_suggestion[i])
-    print(final_suggestion)
-    jsonString = json.dumps(data)
+    jsonFirst = '{}'
+    data= json.loads(jsonFirst)
+    test = []
+    for i in range(len(final_suggestion)):
+        test.append({'idPredict': i, 'id': str(final_suggestion[i])})
+        
+    res = {'data': test}
+    jsonString = json.dumps(res)
     response = make_response(jsonString)
     response.headers['Content-Type'] = 'application/json'
+
+    print(type(response))
     return response
 app.run(debug=True, use_reloader=False)
