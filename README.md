@@ -26,7 +26,7 @@ Once the dataset is obtained, we convert each string column into integers using 
 # Building the Machine Learning Model
 After acquiring the necessary data, we can proceed to create the model to be used in the training and testing stages. The training stage involves training the data to predict certain outcomes. The testing stage, on the other hand, checks the predictions obtained from the previous training stage. Following the completion of the training and testing stages, we visualize the results using the predefined evaluation matrices. The evaluation matrices used can include accuracy and Root Mean Squared Error (RMSE). In this project, we create 3 machine-learning models. The machine learning algorithms utilized are Artificial Neural Networks (ANN) and Cosine Similarity. The machine learning algorithms used are Artificial Neural Networks (ANN) and Cosine Similarity. To create the Artificial Neural Networks model we use an additional library, namely TensorFlow and to create the Cosine Similarity model use the Scikit-learn library. After performing the training and testing stages using these models, we evaluate them using the Root Mean Squared Error (RMSE) evaluation matrix to identify the best model.
 
-# Using Flask to Aid the Deployment Process
+# Using Flask to Help the Deployment Process
 Once we obtain the best model, we employ Flask to assist in the deployment process of the completed model. Flask is a lightweight and flexible web framework for Python. Although not specifically designed for machine learning, Flask can be highly useful in integrating machine learning models into web applications. After incorporating the model into Flask, we deploy the model using Google Cloud Run.
 
 
