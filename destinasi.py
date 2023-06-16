@@ -9,6 +9,7 @@ import numpy as np
 # !pip install mysql.connector
 import mysql.connector
 import os
+import json
 
 
 # Untuk pemodelan
@@ -215,12 +216,15 @@ def predict():
     length_of_category.append(category4_len)
     length_of_category.append(category5_len)
     length_of_category
+
     for i in range(len(category_recomm)):
       category_recomm[i] = (category_recomm[i])/(length_of_category[i]*1.0)
     category_recomm
     category_recomm2 = np.array(category_recomm)
     category_recomm2.sort()
+
     print(category_recomm2)
+
     i=4
     highest1 = 0
     highest2 = 0
@@ -233,12 +237,12 @@ def predict():
       elif category_recomm[i]==category_recomm2[2]:
         highest3 = i
       i-=1
-    print(highest1,highest2,highest3)
+    # print(highest1,highest2,highest3)
 
     cat_name1 = category_encoded_to_category.get(highest1)
     cat_name2 = category_encoded_to_category.get(highest2)
     cat_name3 = category_encoded_to_category.get(highest3)
-    print(cat_name1,cat_name2,cat_name3)
+    # print(cat_name1,cat_name2,cat_name3)
 
 
     cat1 = place_df[place_df.category == cat_name1]
@@ -265,8 +269,6 @@ def predict():
     else:
       suggest3 = suggest3.sample(len(suggest3))
 
-
-
     final_suggestion = []
     for i in range(len(suggest1)):
       final_suggestion.append(suggest1['id'].values[i])
@@ -279,16 +281,15 @@ def predict():
 
     jsonFirst = '{}'
     data= json.loads(jsonFirst)
-    test=[]
-    for i in range( len(final_suggestion)):
-      test[i]= data['idPredict'] = [i]
-      test[i]= data['id'] = str(final_suggestion[i])
-    print(final_suggestion)
-    res = '{ "status": "success", "data": [{}]}',format(data)
+    test = []
+    for i in range(len(final_suggestion)):
+        test.append({'idPredict': i, 'id': str(final_suggestion[i])})
+        
+    res = {'data': test}
     jsonString = json.dumps(res)
     response = make_response(jsonString)
     response.headers['Content-Type'] = 'application/json'
 
-    
+    print(type(response))
     return response
 app.run(debug=True, use_reloader=False)
