@@ -29,13 +29,13 @@ class DestinasiAdapter(private val listDestinasi: List<ListDestinasi>) :Recycler
         Glide.with(viewHolder.itemView.context).load(listDestinasi[position].image)
             .transition(DrawableTransitionOptions.withCrossFade()).centerCrop()
             .into(viewHolder.imgPhoto)
-        viewHolder.tvDestinasi.text = listDestinasi[position].name
+        viewHolder.tvDestinasi.text = listDestinasi[position].place_name
         viewHolder.tvDescription.text = listDestinasi[position].description
 
 
         viewHolder.itemView.setOnClickListener{
             val intent = Intent(viewHolder.itemView.context, DetailActivity::class.java)
-            intent.putExtra("name", listDestinasi[position].name)
+            intent.putExtra("name", listDestinasi[position].place_name)
             intent.putExtra("description", listDestinasi[position].description)
             intent.putExtra("photo", listDestinasi[position].image)
 

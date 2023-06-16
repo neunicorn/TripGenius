@@ -28,8 +28,8 @@ data class ListDestinasi(
 	@field:SerializedName("price")
 	val price: String? = null,
 
-	@field:SerializedName("name")
-	val name: String? = null,
+	@field:SerializedName("place_name")
+	val place_name: String? = null,
 
 	@field:SerializedName("rating")
 	val rating: String? = null,
