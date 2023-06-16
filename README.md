@@ -55,4 +55,8 @@ To create this project we used several dependencies and technologies, among othe
   | 3 | M213DSX1771 | [Peter Abraham Metranus Irvianto](https://github.com/peterabrhm) | Machine Learning | Universitas Katolik Parahyangan | 
   | 4 | C125DKX4623 | [Muhamad Zulfan Taqiyudin Baehaki](https://github.com/neunicorn) | Cloud Computing | UIN Syarif Hidayatullah Jakarta | 
   | 5 | C125DKX4605 | [Muhammad Zhafran Athofani](https://github.com/Zhafranath) | Cloud Computing | UIN Syarif Hidayatullah Jakarta |  
-  | 6 | A032DSX3419  | [Jefanya Brian](https://github.com/JefanyaB) | Mobile Development | Institut Teknologi Harapan Bangsa |
+  | 6 | A032DSX3419  | [Jefanya Brian](https://github.com/JefanyaB) | Mobile Development | Institut Teknologi Harapan Bangsa |  
+  
+  ## REPO  
+  - [Machine Learning](https://github.com/neunicorn/TripGenius/tree/ML)
+  - [Mobile Development](https://github.com/neunicorn/TripGenius/tree/MD)
